@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Menu, Icon, Avatar } from 'antd';
 import Converse from "./Converse";
+import InputArea from "./InputArea";
 import styles from './Home.css';
 const { Header, Content, Footer, Sider } = Layout;
 class Home extends React.Component {
@@ -34,7 +35,7 @@ class Home extends React.Component {
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '16px', height: '100%',display: 'flex', flexDirection:'row'}}>
             {/* 让对话div 的高度固定 700px(需要计算) overflow:auto; 内容超出出现滚动条. */}
-            <div style={{ padding: 24, background: '#fff',height: '100%',width:'80%'}}>
+            <div style={{ padding: 16, background: '#fff',height: '100%',width:'80%'}}>
               <div style={{overflow: 'auto', minHeight: '350px', maxHeight: '700px'}}>
                 <Converse/>
                 <Converse/>
@@ -48,7 +49,7 @@ class Home extends React.Component {
                 <Converse/>
                 <Converse/>
               </div>
-              <div style={{ background:'red', height: '80px', marginTop: '16px' }}></div>
+              <InputArea />
             </div>
             <div style={{height:'100%',width:'20%', background: 'green',padding: 24}}>
               群内在线人数
