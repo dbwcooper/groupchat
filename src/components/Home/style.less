@@ -1,0 +1,36 @@
+
+
+.main-layout{
+  height: 100vh;
+  & .logo {
+    height: 32px;
+    margin: 16px;
+  }
+  & .group-add{
+    position: absolute;
+    background: 'red';
+    bottom: 48px;
+  }
+  .right-box{
+    margin:16px;
+    height: calc(~"100% - 80px");
+    display: flex;
+    flex-direction: row;
+  }
+  .converse-box{
+    padding: 16;
+    background: #fff;
+    width: 80%;
+    .content{
+      overflow: auto;
+      min-height: 350px;
+      max-height: calc(~"100% - 100px");
+    }
+  }
+  .room-users{
+    height: 100%;
+    width: 20%;
+    background: green;
+    padding: 24px;
+  }
+}

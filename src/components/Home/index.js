@@ -1,9 +1,11 @@
 import React from 'react';
 import { Layout, Menu, Icon, Avatar } from 'antd';
-import Converse from "./Converse";
-import InputArea from "./InputArea";
-import styles from './Home.css';
+import Converse from "../Converse";
+import InputArea from "../InputArea";
+import styles from './style.less';
+
 const { Header, Content, Footer, Sider } = Layout;
+
 class Home extends React.Component {
   state = {
     collapsed: false,
@@ -13,7 +15,7 @@ class Home extends React.Component {
   }
   render() {
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout className={styles['main-layout']}>
         <Sider
           collapsible
           collapsed={this.state.collapsed}
@@ -32,11 +34,11 @@ class Home extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '16px', height: '100%',display: 'flex', flexDirection:'row'}}>
+          <Header />
+          <Content className={styles['right-box']}>
             {/* 让对话div 的高度固定 700px(需要计算) overflow:auto; 内容超出出现滚动条. */}
-            <div style={{ padding: 16, background: '#fff',height: '100%',width:'80%'}}>
-              <div style={{overflow: 'auto', minHeight: '350px', maxHeight: '700px'}}>
+            <div className={styles['converse-box']}>
+              <div className={styles.content}>
                 <Converse/>
                 <Converse/>
                 <Converse/>
@@ -51,7 +53,7 @@ class Home extends React.Component {
               </div>
               <InputArea />
             </div>
-            <div style={{height:'100%',width:'20%', background: 'green',padding: 24}}>
+            <div className={styles['room-users']}>
               群内在线人数
             </div>
           </Content>

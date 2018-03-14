@@ -1,0 +1,44 @@
+.input-area {
+  height: 80px;
+  margin-top: 16px;
+  border-top: 1px solid green;
+  padding-top: 16px;
+}
+.input-area > span {
+  margin-left: 8px;
+}
+.input-area :global .ant-input {
+  width: auto;
+  flex-grow: 1;
+  margin-left: 8px;
+}
+.input-area :global .icon-settings {
+  width: 40px;
+  height: 63px;
+  justify-content: space-around;
+  font-size: 20px;
+  margin-left: 8px;
+}
+.input-area :global .icon-settings .anticon {
+  height: 31px;
+  border-radius: 4px;
+}
+.input-area :global .icon-settings i::before {
+  margin-top: 4px;
+}
+.input-area :global .icon-settings .anticon:hover {
+  color: #1890ff;
+  font-size: 22px;
+  background: #E0E0E0;
+}
+.input-area :global .icon-settings .anticon:active {
+  background: #C8C8C8;
+}
+.flex-r {
+  display: flex;
+  flex-direction: row;
+}
+.flex-c {
+  display: flex;
+  flex-direction: column;
+}

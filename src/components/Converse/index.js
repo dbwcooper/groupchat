@@ -4,7 +4,7 @@ import styles from './style.less';
 class Converse extends React.Component {
   render() {
     return (
-      <div className={styles['flex-r']}>
+      <div className={styles['flex-r'] + ' ' + styles['converse-item']}>
         <Avatar shape="square" size="large" icon="user" />
         <div className={styles['chat-content']}>
           <div className={styles['chat-title']}>
