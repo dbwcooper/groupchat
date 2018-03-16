@@ -1,7 +1,8 @@
 import React from 'react';
-import { Layout, Menu, Icon, Avatar } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import Converse from "../Converse";
 import InputArea from "../InputArea";
+import RoomSetting from "../RoomSetting";
 import styles from './style.less';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -53,9 +54,7 @@ class Home extends React.Component {
               </div>
               <InputArea />
             </div>
-            <div className={styles['room-users']}>
-              群内在线人数
-            </div>
+            <RoomSetting />
           </Content>
          
         </Layout>
