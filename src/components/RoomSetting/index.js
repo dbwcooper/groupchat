@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Avatar, Collapse } from 'antd';
+import { Card, Button, Avatar, Collapse, Tooltip } from 'antd';
 import AddUser from './AddUser';
 import styles from './style.less';
 
@@ -24,12 +24,11 @@ class RoomSetting extends React.Component {
           </Panel>
         </Collapse>
         <AddUser />
-        <Card title="用户头像" extra={<Button onClick={this.onUserAdd}>ADD</Button>} style={{ flex: 1 }}>
-          <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
-          <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
-          <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
-          <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
-          <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
+        <Card title="在线人数" extra={<Button onClick={this.onUserAdd}>ADD</Button>}>
+          <Tooltip placement="topLeft" title="Prompt Text">
+            <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
+          </Tooltip>
+          
           <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
           <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
           <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }}/>
