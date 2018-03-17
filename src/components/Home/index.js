@@ -17,25 +17,15 @@ class Home extends React.Component {
     this.setState({ collapsed });
   }
   render() {
+    console.log(this.props);
     return (
       <Layout className={styles['main-layout']}>
         <SiderGroup />
         <Layout>
           <PageHeader />
           <Content className={styles['right-box']}>
-            {/* 让对话div 的高度固定 700px(需要计算) overflow:auto; 内容超出出现滚动条. */}
             <div className={styles['converse-box']}>
               <div className={styles.content}>
-                <Converse/>
-                <Converse/>
-                <Converse/>
-                <Converse/>
-                <Converse/>
-                <Converse/>
-                <Converse/>
-                <Converse/>
-                <Converse/>
-                <Converse/>
                 <Converse/>
               </div>
               <InputArea />

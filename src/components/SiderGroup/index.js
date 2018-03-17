@@ -1,9 +1,8 @@
 import React from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Select  } from 'antd';
 import styles from './style.less';
 
 const { Sider } = Layout;
-
 class SiderGroup extends React.Component {
     state = {
         collapsed: false,
@@ -18,7 +17,7 @@ class SiderGroup extends React.Component {
                 collapsed={this.state.collapsed}
                 onCollapse={this.onCollapse}
             >
-                <div className={styles.logo}> 整个项目的logo</div>
+                <div className={styles.logo}> CHAT Together</div>
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1">
                         <Icon type="user" />

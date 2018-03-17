@@ -19,8 +19,7 @@
 }
 .main-layout .converse-box .content {
   overflow: auto;
-  min-height: 350px;
-  max-height: calc(100% - 100px);
+  height: calc(100% - 100px);
 }
 .main-layout .room-users {
   height: 100%;

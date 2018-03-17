@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'dva';
 import Home from '../components/Home'
 
-class HomeRoute extends React.Component{
-    render(){
-        return (
-            <Home />
-        )
-    }
+function HomeRoute(props){
+    return <Home {...props}/>;
 }
-export default connect()(HomeRoute);
+function mapStateToProps(state){
+    return state;
+}
+export default connect(mapStateToProps)(HomeRoute);
