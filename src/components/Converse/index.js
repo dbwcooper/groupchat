@@ -1,19 +1,30 @@
 import React from 'react';
 import { Avatar } from 'antd';
+import ReactMarkdown from 'react-markdown';
+import { FormatTime } from '../../utils/util';
 import styles from './style.less';
+
 class Converse extends React.Component {
+  state = {
+    name: this.props.avatar[0],
+    color: this.props.avatar[1],
+  }
   render() {
     return (
       <div className={styles['flex-r'] + ' ' + styles['converse-item']}>
-        <Avatar shape="square" size="large" icon="user" />
+        <Avatar shape="square" style={{ backgroundColor: this.state.color, verticalAlign: 'middle' }} size="large">
+          {this.state.name}
+        </Avatar>
         <div className={styles['chat-content']}>
           <div className={styles['chat-title']}>
-            <span>George James @ 回复的人</span>
-            <span>Feb 27 18:48</span>
+            <span>{this.props.userName}</span>
+            <span>{FormatTime(this.props.moment)}</span>
           </div>
-          <p className={styles['chat-words']}>
-            Antd is not compatible with Less 3.x, and will cause an error "Cannot read property 'length' of undefined
-            " in antd\lib\style\color\bezierEasing.less, Is this a bug from Less or Antd?</p>
+          {
+            this.props.md
+            ? <ReactMarkdown source={this.props.content} />
+            : (<p> {this.props.content} </p>)
+          }
         </div>
       </div>
     );

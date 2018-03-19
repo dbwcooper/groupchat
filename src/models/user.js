@@ -1,24 +1,23 @@
-
 export default {
-    namespace: 'user',
-    state: {
-        userName: 'George James ',
-        avatar: ['George James', '#f56a00'],
-        rooms: []
+  namespace: 'user',
+  state: {
+    userName: 'George James ',
+    avatar: ['G', '#f56a00'],
+    rooms: []
 
+  },
+  subscriptions: {
+    setup({ dispatch, history }) {  // eslint-disable-line
     },
-    subscriptions: {
-        setup({ dispatch, history }) {  // eslint-disable-line
-        },
+  },
+  effects: {
+    *fetch({ payload }, { call, put }) {  // eslint-disable-line
+      yield put({ type: 'save' });
     },
-    effects: {
-        *fetch({ payload }, { call, put }) {  // eslint-disable-line
-            yield put({ type: 'save' });
-        },
+  },
+  reducers: {
+    save(state, action) {
+      return { ...state, ...action.payload };
     },
-    reducers: {
-        save(state, action) {
-            return { ...state, ...action.payload };
-        },
-    },
+  },
 };
