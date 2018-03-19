@@ -1,17 +1,20 @@
 import React from 'react';
 import { Card, Button, Avatar, Collapse, Tooltip } from 'antd';
-import AddUser from './AddUser';
+import ModalUsers from './addUser';
 
 const { Panel } = Collapse;
 
-// const text = `
-//   A dog is a type of domesticated animal.
-//   Known for its loyalty and faithfulness,
-//   it can be found as a welcome guest in many households across the world.
-// `;
 class RoomSetting extends React.Component {
+  state = {
+    visible: false,
+  }
   onUserAdd = () => {
-
+    this.setState({ visible: true }, () => {
+      console.log(this.state.visible);
+    })
+  }
+  closeModal = () => {
+    this.setState({ visible: false })
   }
   render() {
     return (
@@ -21,13 +24,11 @@ class RoomSetting extends React.Component {
             {this.props.room.annoucement}
           </Panel>
         </Collapse>
-        <AddUser />
+        <ModalUsers visible={this.state.visible} closeModal={this.closeModal} />
         <Card title="在线人数" extra={<Button onClick={this.onUserAdd}>ADD</Button>}>
           <Tooltip placement="topLeft" title="Prompt Text">
             <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }} />
           </Tooltip>
-          <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }} />
-          <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }} />
           <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }} />
         </Card>
       </div>
