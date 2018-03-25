@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input, Avatar, Icon } from 'antd';
+import { Input, Icon } from 'antd';
 import MarkDownModal from './markdown';
+import MyAvatar from '../Avatar';
 import styles from './style.less';
 
 const { TextArea } = Input;
@@ -15,11 +16,11 @@ class Converse extends React.Component {
       content: this.state.content,
       moment: new Date().getTime()
     }
-    this.props.dispatch({ type: 'room/addContent', payload: value })
+    this.props.dispatch({ type: 'room/e_increaseRemark', payload: value })
   }
   onEnterM = (content) => {
     this.setState({ visible: false })
-    this.props.dispatch({ type: 'room/addContent', payload: content })
+    this.props.dispatch({ type: 'room/e_increaseRemark', payload: content })
   }
   onChangeHandle = (e) => {
     this.setState({ content: e.target.value })
@@ -30,7 +31,7 @@ class Converse extends React.Component {
   render() {
     return (
       <div className={styles['flex-r'] + ' ' + styles['input-area']}>
-        <Avatar icon="user" shape="square" size="large" />
+        <MyAvatar avatar={this.props.user.avatar} />
         <TextArea rows={2} onChange={this.onChangeHandle} />
         <div className={`icon-settings ${styles['flex-c']}`}>
           <Icon type="arrow-up" onClick={this.onEnter} />

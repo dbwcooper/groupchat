@@ -2,7 +2,7 @@ export default {
   namespace: 'user',
   state: {
     userName: 'George James ',
-    avatar: ['G', '#f56a00'],
+    avatar: { alif: 'G', color: '#f56a00' },
     rooms: []
 
   },

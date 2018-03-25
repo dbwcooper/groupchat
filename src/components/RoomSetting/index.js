@@ -1,6 +1,8 @@
 import React from 'react';
-import { Card, Button, Avatar, Collapse, Tooltip } from 'antd';
-import ModalUsers from './addUser';
+import { Card, Icon, Collapse } from 'antd';
+import ModalUsers from './ModalUser';
+import MyAvatar from '../Avatar';
+import styles from './style.less';
 
 const { Panel } = Collapse;
 
@@ -8,10 +10,9 @@ class RoomSetting extends React.Component {
   state = {
     visible: false,
   }
+
   onUserAdd = () => {
-    this.setState({ visible: true }, () => {
-      console.log(this.state.visible);
-    })
+    this.setState({ visible: true })
   }
   closeModal = () => {
     this.setState({ visible: false })
@@ -24,12 +25,10 @@ class RoomSetting extends React.Component {
             {this.props.room.annoucement}
           </Panel>
         </Collapse>
-        <ModalUsers visible={this.state.visible} closeModal={this.closeModal} />
-        <Card title="在线人数" extra={<Button onClick={this.onUserAdd}>ADD</Button>}>
-          <Tooltip placement="topLeft" title="Prompt Text">
-            <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }} />
-          </Tooltip>
-          <Avatar size="large" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ marginBottom: '10px' }} />
+        <ModalUsers {...this.props} visible={this.state.visible} closeModal={this.closeModal} />
+        <Card title="在线人数" className={styles.avatar}>
+          {this.props.room.onlineList.map(item => (<MyAvatar avatar={item} key={item.userName} />))}
+          <Icon type="plus-circle-o" onClick={this.onUserAdd} />
         </Card>
       </div>
     );
