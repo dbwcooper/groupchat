@@ -9,13 +9,13 @@ export default {
     annoucement: '本群仅用于程序员之间的信息交流，严禁一切反党，反社会的言论，请大家维护一个良好的网络环境。',
     userAddLoading: false,
     onlineList: [{ color: '#1890ff', alif: 'C', userName: 'cooperduan' },
-      { color: '#1890ff', alif: 'C', userName: 'cooperduan' },
-      { pic: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png', userName: 'cooperduan' }],
+      { color: '#1890ff', alif: 'C', userName: 'cooperduans' },
+      { pic: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png', userName: 'cooperduan3' }],
     searchUserList: [],
     converseList: [{
       userName: 'George James', avatar: { color: '#1890ff', alif: 'C' }, moment: 1521300207000, content: '<span style="color: red">12321332</span>', md: true
     }, {
-      userName: 'George James', avatar: { color: '#f56a00', alif: 'G' }, moment: 1521300208000, content: '### 代码markdown', md: true
+      userName: 'George Jamess', avatar: { color: '#f56a00', alif: 'G' }, moment: 1521300208000, content: '### 代码markdown', md: true
     }]
   },
   subscriptions: {

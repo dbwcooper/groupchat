@@ -12,10 +12,12 @@ class Converse extends React.Component {
     visible: false
   }
   onEnter = () => {
+    if (!this.state.content) return;
     let value = {
       content: this.state.content,
       moment: new Date().getTime()
     }
+    this.setState({ content: '' })
     this.props.dispatch({ type: 'room/e_increaseRemark', payload: value })
   }
   onEnterM = (content) => {
@@ -32,7 +34,7 @@ class Converse extends React.Component {
     return (
       <div className={styles['flex-r'] + ' ' + styles['input-area']}>
         <MyAvatar avatar={this.props.user.avatar} />
-        <TextArea rows={2} onChange={this.onChangeHandle} />
+        <TextArea value={this.state.content} rows={2} onChange={this.onChangeHandle} />
         <div className={`icon-settings ${styles['flex-c']}`}>
           <Icon type="arrow-up" onClick={this.onEnter} />
           <Icon type="file-markdown" onClick={this.onMarkDown.bind(this, true)} />

@@ -11,11 +11,13 @@ class MarkDownModal extends React.Component {
     this.setState({ content: e.target.value })
   }
   handleOk = () => {
+    if (!this.state.content) return;
     let converse = {
       moment: new Date().getTime(),
       content: this.state.content,
       md: true,
     }
+    this.setState({ content: '' });
     this.props.onEnter(converse);
   }
   render() {
@@ -26,7 +28,7 @@ class MarkDownModal extends React.Component {
         onOk={this.handleOk}
         onCancel={this.props.onMarkDown.bind(this, false)}
       >
-        <TextArea rows={14} onChange={this.onChangeHandle} />
+        <TextArea value={this.state.content} rows={14} onChange={this.onChangeHandle} />
       </Modal>
     );
   }
