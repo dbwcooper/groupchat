@@ -2,17 +2,26 @@ import { Icon, Avatar, Menu, Dropdown } from 'antd';
 import React from 'react';
 import styles from './style.less';
 
-const menu = (
+const menuLogout = (
   <Menu>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">个人资料</a>
+      <a rel="noopener noreferrer" href="http://example.com" onClick={this.showProfile}>个人资料</a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">注销</a>
+      <a rel="noopener noreferrer" href="http://example.com" onClick={this.logout} >注销</a>
     </Menu.Item>
   </Menu>
 );
 class PageHeader extends React.Component {
+  showProfile = (e) => {
+    // 个人信息
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('profile');
+  }
+  logout = () => {
+    // 注销登陆
+  }
   render() {
     return (
       <div className={styles['page-header']}>
@@ -22,7 +31,7 @@ class PageHeader extends React.Component {
           <span>一个设计语言&前端框架</span>
         </div>
         <div className={styles['page-setting']}>
-          <Dropdown overlay={menu} placement="bottomLeft">
+          <Dropdown overlay={menuLogout} placement="bottomLeft">
             <Avatar shape="square" size="large" icon="user" />
           </Dropdown>
         </div>

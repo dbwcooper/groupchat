@@ -5,3 +5,7 @@ export function addConverse(converse) { // eslint-disable-line
 export function getUser() {
   return request('https://randomuser.me/api/?results=10');
 }
+
+export function inviteUsers() {
+  return request('https://randomuser.me/api/?results=10');
+}
