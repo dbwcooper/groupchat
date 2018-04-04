@@ -23,6 +23,7 @@
     "arrow-body-style": [0],
     "import/extensions": [0],
     "no-bitwise": [0],
+    "no-mixed-operators": [0],
     "no-cond-assign": [0],
     "import/no-unresolved": [0],
     "require-yield": [1],

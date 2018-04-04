@@ -1,11 +1,33 @@
 
 .logo {
-    height: 40px;
-    margin: 16px;
+    margin: 8px 0;
     font-size: 18px;
     font-family: Tahoma;
-    background: #fff;
     line-height: 40px;
     text-align: center;
     overflow: hidden;
+    :global{
+        button.ant-btn{
+            margin-top: 8px;
+            height: 40px;
+            width:100%;
+            text-align: left;
+            padding: 0px 8px;
+        }
+    }
+}
+.search-room {
+    width:100%;
+}
+
+.room-menu{
+    :global{
+        li{
+            display: flex;
+            align-items: center;
+            i{
+                font-size: 24px;
+            }
+        }
+    }
 }

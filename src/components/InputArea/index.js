@@ -36,7 +36,7 @@ class Converse extends React.Component {
         <MyAvatar avatar={this.props.user.avatar} />
         <TextArea value={this.state.content} rows={2} onChange={this.onChangeHandle} />
         <div className={`icon-settings ${styles['flex-c']}`}>
-          <Icon type="arrow-up" onClick={this.onEnter} />
+          <Icon type="arrow-up" style={{ color: '#1890ff' }} onClick={this.onEnter} />
           <Icon type="file-markdown" onClick={this.onMarkDown.bind(this, true)} />
         </div>
         <MarkDownModal

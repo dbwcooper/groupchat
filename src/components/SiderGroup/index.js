@@ -1,14 +1,21 @@
 import React from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Button } from 'antd';
+import RoomSelect from './RoomSelect';
+import RoomMenu from './RoomMenu';
+import RoomAdd from './RoomAdd';
 import styles from './style.less';
 
 const { Sider } = Layout;
 class SiderGroup extends React.Component {
     state = {
       collapsed: false,
+      visible: false,
     };
     onCollapse = (collapsed) => {
       this.setState({ collapsed });
+    }
+    onVisible = (visible) => {
+      this.setState({ visible })
     }
     render() {
       return (
@@ -17,17 +24,12 @@ class SiderGroup extends React.Component {
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
         >
-          <div className={styles.logo}> CHAT Together</div>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1">
-              <Icon type="user" />
-              <span>Nodejs 讨论群</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="desktop" />
-              <span>蚂蚁金服UE讨论组</span>
-            </Menu.Item>
-          </Menu>
+          <div className={styles.logo}>
+            <RoomSelect {...this.props} />
+            <Button icon="plus" onClick={this.onVisible.bind(this, true)}>ADD A ROOM</Button>
+          </div>
+          <RoomAdd visible={this.state.visible} onVisible={this.onVisible.bind(this, false)} />
+          <RoomMenu {...this.props} />
         </Sider>
       )
     }

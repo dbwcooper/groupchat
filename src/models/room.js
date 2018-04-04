@@ -4,14 +4,20 @@ import { Notification } from '../utils/util';
 export default {
   namespace: 'room',
   state: {
-    name: 'roomName',
-    title: '房间描述',
-    annoucement: '本群仅用于程序员之间的信息交流，严禁一切反党，反社会的言论，请大家维护一个良好的网络环境。',
+    name: 'ant-design',
+    title: '一个设计语言&前端框架',
+    // 群内公告
+    annoucement: '本群仅用于程序员之间的信息交流，请大家维护一个良好的网络环境。',
     userAddLoading: false,
+    roomSearchLoading: false,
+    converseLoading: false,
     onlineList: [{ color: '#1890ff', alif: 'C', userName: 'cooperduan' },
       { color: '#1890ff', alif: 'C', userName: 'cooperduans' },
       { pic: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png', userName: 'cooperduan3' }],
     searchUserList: [],
+    searchRoomList: [],
+    roomList: [{ roomName: 'Nodejss 交流群', roomId: '1' }, { roomName: 'Koa 交流群', roomId: '2' }],
+    defaultRoomId: '1',
     converseList: [{
       userName: 'George James', avatar: { color: '#1890ff', alif: 'C' }, moment: 1521300207000, content: '<span style="color: red">12321332</span>', md: true
     }, {
@@ -36,7 +42,7 @@ export default {
         if (data.code === 200) {
           // 插入content 的 converseList列表中
           payload.avatar = user.avatar;
-          yield put({ type: 'r_saveRemark', payload });
+          yield put({ type: 'r_saveConverse', payload });
           Notification('success', 'success');
         } else {
           Notification('error', '评论失败');
@@ -74,14 +80,60 @@ export default {
       } catch (error) {
         Notification('error', '错误');
       }
+    },
+    // 搜索群组
+    *e_getSearchRoomList(action, { put, call }) {
+      try {
+        yield put({ type: 'r_save', payload: { roomSearchLoading: true } })
+        let { code, data, msg } = yield call(Service.searchRoom, action.payload);
+        if (code === 200) {
+          yield put({ type: 'r_save', payload: { searchRoomList: data } })
+        } else {
+          Notification('error', msg);
+        }
+        yield put({ type: 'r_save', payload: { roomSearchLoading: false } })
+      } catch (error) {
+        yield put({ type: 'r_save', payload: { roomSearchLoading: false } })
+        Notification('error', '错误');
+      }
+    },
+    // 根据用户选择的room 获取对应的聊天室内的对话信息
+    *e_getConverseByRoomId(action, { put, call }) {
+      try {
+        yield put({ type: 'r_saveConverseLoading', payload: true });
+        let { code, data, msg } = yield call(Service.getConverse, action.payload);
+        if (code === 200) {
+          yield put({ type: 'r_save', converseList: data })
+          Notification('success', msg);
+        }
+        yield put({ type: 'r_saveConverseLoading', payload: false })
+      } catch (error) {
+        yield put({ type: 'r_saveConverseLoading', payload: false })
+        Notification('error', '错误');
+      }
+    },
+    // 创建一个聊天室
+    *e_createRoom(action, { put, call }) {
+      try {
+        yield put({ type: 'r_saveConverseLoading', payload: true });
+        let { code, data, msg } = yield call(Service.getConverse, action.payload);
+        if (code === 200) {
+          yield put({ type: 'r_save', converseList: data })
+          Notification('success', msg);
+        }
+        yield put({ type: 'r_saveConverseLoading', payload: false })
+      } catch (error) {
+        yield put({ type: 'r_saveConverseLoading', payload: false })
+        Notification('error', '错误');
+      }
     }
   },
   reducers: {
-    r_save(state, action) {
-      return { ...state, ...action }
+    r_save(state, { payload }) {
+      return { ...state, ...payload }
     },
     // 保存用户发言的内容
-    r_saveRemark(state, { payload }) {
+    r_saveConverse(state, { payload }) {
       let converseList = [...state.converseList];
       converseList.push(payload);
       return { ...state, converseList }
@@ -94,6 +146,14 @@ export default {
     // save userAddLoading
     r_saveUserAddLoading(state, { payload }) {
       return { ...state, userAddLoading: payload }
+    },
+    // save roomSearchLoading
+    r_saveRoomSearchLoading(state, { payload }) {
+      return { ...state, roomSearchLoading: payload }
+    },
+    // save roomSearchLoading
+    r_saveConverseLoading(state, { payload }) {
+      return { ...state, converseLoading: payload }
     },
   },
 };

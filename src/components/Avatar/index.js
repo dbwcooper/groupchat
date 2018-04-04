@@ -8,12 +8,6 @@ import styles from './style.less'
  * @extends {React.Component}
  */
 class myAvatar extends React.Component {
-  static defaultProps = {
-    avatar: {
-      userName: '',
-      pic: '',
-    }
-  }
   getAvatar = (avatar) => {
     if (avatar.alif) {
       // 传入为首字母和颜色
@@ -27,11 +21,10 @@ class myAvatar extends React.Component {
     }
   }
   render() {
-    console.log(this.props);
     return (
-      <Tooltip placement="topLeft" title={this.props.avatar.userName}>
-        {this.getAvatar(this.props.avatar)}
-      </Tooltip>
+      this.props.avatar
+        ? (<Tooltip placement="topLeft" title={this.props.avatar.userName}> {this.getAvatar(this.props.avatar)} </Tooltip>)
+        : <Avatar shape="square" size="large" icon="user" />
     )
   }
 }

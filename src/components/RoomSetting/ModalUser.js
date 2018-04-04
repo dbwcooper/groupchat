@@ -3,6 +3,7 @@ import { Modal, Select, Spin } from 'antd';
 
 const { Option } = Select;
 
+// 设置搜索延迟
 const debounce = (fn, delay) => {
   let timer;
   let args = arguments;
@@ -16,28 +17,32 @@ const debounce = (fn, delay) => {
 class ModalUsers extends React.Component {
   constructor(params) {
     super(params);
-    this.fetchUser = debounce(this.fetchUser, 500);
+    this.fetchUser = debounce(this.fetchUser, 800);
   }
   state = {
     value: [],
   }
+  // 得到搜索用户列表
   fetchUser = (value) => {
     this.props.dispatch({ type: 'room/e_getSearchUserList', payload: value })
   }
   handleChange = (value) => {
     this.setState({ value });
   }
+  // 添加用户
   inviteUsers = () => {
-    this.props.dispatch({ type: 'room/e_inviteUsers', payload: this.state.value })
+    this.props.dispatch({
+      type: 'room/e_inviteUsers',
+      payload: this.state.value
+    })
   }
   render() {
     const { value } = this.state;
-    console.log(this.props.room.searchUserList);
     return (
       <Modal
         title="Add user"
         visible={this.props.visible}
-        onOk={this.props.closeModal}
+        onOk={this.inviteUsers}
         onCancel={this.props.closeModal}
       >
         <Select

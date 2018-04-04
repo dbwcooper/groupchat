@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { FormatTime } from '../../utils/util';
+import { formatTime } from '../../utils/util';
 import MyAvatar from '../Avatar';
 import styles from './style.less';
 
@@ -12,7 +12,7 @@ class Converse extends React.Component {
         <div className={styles['chat-content']}>
           <div className={styles['chat-title']}>
             <span>{this.props.userName}</span>
-            <span>{FormatTime(this.props.moment)}</span>
+            <span>{formatTime(this.props.moment)}</span>
           </div>
           {
             this.props.md

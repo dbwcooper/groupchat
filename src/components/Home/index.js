@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 import Converse from '../Converse';
 import InputArea from '../InputArea';
 import RoomSetting from '../RoomSetting';
@@ -16,19 +16,21 @@ class Home extends React.Component {
   render() {
     return (
       <Layout className={styles['main-layout']}>
-        <SiderGroup />
-        <Layout>
-          <PageHeader />
-          <Content className={styles['right-box']}>
-            <div className={styles['converse-box']}>
-              <div className={styles.content}>
-                {this.getConverseList()}
+        <SiderGroup {...this.props} />
+        <Spin spinning={this.props.room.converseLoading}>
+          <Layout>
+            <PageHeader {...this.props} />
+            <Content className={styles['right-box']}>
+              <div className={styles['converse-box']}>
+                <div className={styles.content}>
+                  {this.getConverseList()}
+                </div>
+                <InputArea {...this.props} />
               </div>
-              <InputArea {...this.props} />
-            </div>
-            <RoomSetting {...this.props} />
-          </Content>
-        </Layout>
+              <RoomSetting {...this.props} />
+            </Content>
+          </Layout>
+        </Spin>
       </Layout>
     );
   }

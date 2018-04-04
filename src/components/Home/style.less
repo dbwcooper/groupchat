@@ -1,7 +1,17 @@
-
-
 .main-layout{
   height: 100vh;
+  :global{
+    .ant-layout{
+      height: 100vh;
+    }
+    .ant-spin-nested-loading{
+      width: 100%;
+      
+    }
+    .ant-spin-nested-loading > div > .ant-spin{
+      max-height: 100%;
+    }
+  }
   & .group-add{
     position: absolute;
     background: 'red';

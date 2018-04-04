@@ -1,40 +1,59 @@
-import { Icon, Avatar, Menu, Dropdown } from 'antd';
+import { Icon, Menu, Avatar, Dropdown, Button } from 'antd';
 import React from 'react';
+import PersonInfo from './PersonInfo';
+// import Avatar from '../Avatar';
 import styles from './style.less';
 
-const menuLogout = (
-  <Menu>
-    <Menu.Item>
-      <a rel="noopener noreferrer" href="http://example.com" onClick={this.showProfile}>个人资料</a>
-    </Menu.Item>
-    <Menu.Item>
-      <a rel="noopener noreferrer" href="http://example.com" onClick={this.logout} >注销</a>
-    </Menu.Item>
-  </Menu>
-);
 class PageHeader extends React.Component {
-  showProfile = (e) => {
-    // 个人信息
-    e.preventDefault();
-    e.stopPropagation();
-    console.log('profile');
+  state = {
+    visible: false,
+  }
+  onVisibleChange = () => {
+    this.setState({ visible: !this.state.visible })
+  }
+  getOverlay = () => {
+    const menuLogout = (
+      <Menu>
+        <Menu.Item>
+          <Button onClick={this.onVisibleChange}> 个人资料 </Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Button onClick={this.logout}>注销</Button>
+        </Menu.Item>
+      </Menu>
+    );
+    return menuLogout;
   }
   logout = () => {
     // 注销登陆
+    this.props.dispatch({
+      type: 'user/e_logout',
+    })
   }
   render() {
+    const { avatar } = this.props.user;
     return (
       <div className={styles['page-header']}>
         <div className={styles['room-info']}>
           <Icon type="ant-design" />
-          <span className={styles['title']}>ant-design/ant-design</span>
-          <span>一个设计语言&前端框架</span>
+          <span className={styles['title']}>{this.props.room.name}</span>
+          <span>{this.props.room.title}</span>
         </div>
         <div className={styles['page-setting']}>
-          <Dropdown overlay={menuLogout} placement="bottomLeft">
-            <Avatar shape="square" size="large" icon="user" />
+          <Dropdown overlay={this.getOverlay()} placement="bottomLeft">
+            {
+            avatar
+            ? (<Avatar shape="square" size="large" className={styles['avatar-color']} style={{ backgroundColor: avatar.color }}>{avatar.alif}</Avatar>)
+            : <Avatar shape="square" size="large" icon="user" />
+          }
+
           </Dropdown>
         </div>
+        <PersonInfo
+          {...this.props}
+          visible={this.state.visible}
+          onVisibleChange={this.onVisibleChange}
+        />
       </div>
     );
   }
