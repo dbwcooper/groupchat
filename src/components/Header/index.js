@@ -36,7 +36,7 @@ class PageHeader extends React.Component {
       <div className={styles['page-header']}>
         <div className={styles['room-info']}>
           <Icon type="ant-design" />
-          <span className={styles['title']}>{this.props.room.name}</span>
+          <span className={styles['title']}>{this.props.room.roomLink}</span>
           <span>{this.props.room.title}</span>
         </div>
         <div className={styles['page-setting']}>

@@ -11,28 +11,33 @@ class RoomSelect extends React.Component {
     state = {
       value: [],
     }
+    onSelect = (key, option) => {
+      if (key) {
+        this.props.dispatch({ type: 'room/e_getConverseByRoomLink', payload: { roomLink: key, title: option.props.children } });
+      }
+    }
     fetchRoom = (value) => {
       this.props.dispatch({ type: 'room/e_getSearchRoomList', payload: value })
     }
-    handleChange = (label) => {
-      console.log('value', label);
-      this.setState({ value: [label] });
+    handleChange = (key, option) => {
+      this.setState({ value: [option.props.children] });
     }
     render() {
       const { searchRoomList, roomSearchLoading } = this.props.room;
       return (
         <Select
-          mode="multiple"
+          mode="combobox"
           value={this.state.value}
           placeholder="Select Room"
           notFoundContent={roomSearchLoading ? <Spin size="small" /> : null}
-          filterOption={false}
           onSearch={this.fetchRoom}
           onChange={this.handleChange}
+          onSelect={this.onSelect}
           size="large"
           className={styles['search-room']}
         >
-          {searchRoomList.map(d => <Select.Option key={d.roomId}>{d.roomName}</Select.Option>)}
+          {searchRoomList.map(d =>
+            <Select.Option key={d.roomLink}>{d.title}</Select.Option>)}
         </Select>
       );
     }

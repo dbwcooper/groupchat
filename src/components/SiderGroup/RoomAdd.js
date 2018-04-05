@@ -28,7 +28,7 @@ class RoomAddForm extends Component {
       >
         <Form>
           <FormItem>
-            {getFieldDecorator('roomName', {
+            {getFieldDecorator('title', {
               rules: [{ required: true, message: 'Please input your community name' }],
             })(<Input placeholder="your community description " />)}
           </FormItem>

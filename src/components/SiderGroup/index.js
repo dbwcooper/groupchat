@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Button } from 'antd';
+import { Layout, Button, Spin } from 'antd';
 import RoomSelect from './RoomSelect';
 import RoomMenu from './RoomMenu';
 import RoomAdd from './RoomAdd';
@@ -28,8 +28,14 @@ class SiderGroup extends React.Component {
             <RoomSelect {...this.props} />
             <Button icon="plus" onClick={this.onVisible.bind(this, true)}>ADD A ROOM</Button>
           </div>
-          <RoomAdd visible={this.state.visible} onVisible={this.onVisible.bind(this, false)} />
-          <RoomMenu {...this.props} />
+          <Spin spinning={this.props.room.menuLoading} style={{ height: 400 }}>
+            <RoomAdd
+              {...this.props}
+              visible={this.state.visible}
+              onVisible={this.onVisible.bind(this, false)}
+            />
+            <RoomMenu {...this.props} />
+          </Spin>
         </Sider>
       )
     }

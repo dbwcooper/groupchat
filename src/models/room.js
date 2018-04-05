@@ -4,20 +4,18 @@ import { Notification } from '../utils/util';
 export default {
   namespace: 'room',
   state: {
-    name: 'ant-design',
-    title: '一个设计语言&前端框架',
+    roomLink: 'nodejs',
+    title: '一个Javascript运行环境',
     // 群内公告
-    annoucement: '本群仅用于程序员之间的信息交流，请大家维护一个良好的网络环境。',
+    annoucement: '',
     userAddLoading: false,
     roomSearchLoading: false,
     converseLoading: false,
-    onlineList: [{ color: '#1890ff', alif: 'C', userName: 'cooperduan' },
-      { color: '#1890ff', alif: 'C', userName: 'cooperduans' },
-      { pic: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png', userName: 'cooperduan3' }],
+    menuLoading: false,
+    onlineList: [],
     searchUserList: [],
     searchRoomList: [],
-    roomList: [{ roomName: 'Nodejss 交流群', roomId: '1' }, { roomName: 'Koa 交流群', roomId: '2' }],
-    defaultRoomId: '1',
+    roomList: [],
     converseList: [{
       userName: 'George James', avatar: { color: '#1890ff', alif: 'C' }, moment: 1521300207000, content: '<span style="color: red">12321332</span>', md: true
     }, {
@@ -25,8 +23,8 @@ export default {
     }]
   },
   subscriptions: {
-    setup({ dispatch, history }) {
-      console.log(history, dispatch);
+    setup({ dispatch }) {
+      dispatch({ type: 'e_getRoomMenu' });
     },
   },
   effects: {
@@ -54,17 +52,17 @@ export default {
     // 根据输入的用户名查找用户
     *e_getSearchUserList(action, { put, call }) {
       try {
-        yield put({ type: 'r_saveUserAddLoading', payload: true });
+        yield put({ type: 'r_save', payload: { userAddLoading: true } });
         let { data, msg } = yield call(Service.getUser, action.payload);
         if (data) {
           yield put({ type: 'r_saveSearchUserList', payload: data });
         } else {
           Notification('error', msg);
         }
-        yield put({ type: 'r_saveUserAddLoading', payload: false });
+        yield put({ type: 'r_save', payload: { userAddLoading: false } });
       } catch (error) {
         Notification('error', error.TypeError);
-        yield put({ type: 'r_saveUserAddLoading', payload: false });
+        yield put({ type: 'r_save', payload: { userAddLoading: false } });
       }
     },
     // 邀请用户
@@ -98,33 +96,81 @@ export default {
       }
     },
     // 根据用户选择的room 获取对应的聊天室内的对话信息
-    *e_getConverseByRoomId(action, { put, call }) {
+    *e_getConverseByRoomLink({ payload }, { put, call, select }) {
       try {
-        yield put({ type: 'r_saveConverseLoading', payload: true });
-        let { code, data, msg } = yield call(Service.getConverse, action.payload);
-        if (code === 200) {
-          yield put({ type: 'r_save', converseList: data })
-          Notification('success', msg);
+        yield put({ type: 'r_save', payload: { converseLoading: true } });
+        let result = {};
+        let roomState = yield select(state => state.room);
+        // 从搜索 select进入
+        if (typeof payload === 'object') {
+          result = {
+            roomList: roomState.roomList,
+            roomLink: payload.roomLink
+          }
+          // 先检查左边的roomMenu是否存在此roomLink
+          let existLink = result.roomList.some(item => item.roomLink === payload.roomLink);
+          if (!existLink) result.roomList.push(payload);
+        } else {
+          // 左边menu的点击事件
+          let room = roomState.roomList.find(item => item.roomLink === payload);
+          result.title = room.title;
+          result.roomLink = room.roomLink;
         }
-        yield put({ type: 'r_saveConverseLoading', payload: false })
+        let { code, data, msg } = yield call(Service.getConverse, result.roomLink);
+        if (code === 200) {
+          result.annoucement = data.annoucement;
+          yield put({ type: 'r_save', payload: result })
+          Notification('success', msg);
+        } else {
+          Notification('error', msg);
+        }
+        yield put({ type: 'r_save', payload: { converseLoading: false } });
       } catch (error) {
-        yield put({ type: 'r_saveConverseLoading', payload: false })
+        yield put({ type: 'r_save', payload: { converseLoading: false } });
         Notification('error', '错误');
       }
     },
     // 创建一个聊天室
-    *e_createRoom(action, { put, call }) {
+    *e_createRoom({ payload }, { put, call, select }) {
       try {
-        yield put({ type: 'r_saveConverseLoading', payload: true });
-        let { code, data, msg } = yield call(Service.getConverse, action.payload);
+        yield put({ type: 'r_save', payload: { converseLoading: true } });
+        let user = yield select(state => state.user);
+        payload.onlineList = [user.avatar]
+        let { code, msg } = yield call(Service.createRoom, payload);
         if (code === 200) {
-          yield put({ type: 'r_save', converseList: data })
+          // 将新创建的聊天室写入聊天室列表
+          let roomState = yield select(state => state.room);
+          payload.roomList = roomState.roomList;
+          payload.roomList.push({
+            roomLink: payload.roomLink,
+            title: payload.title,
+            annoucement: payload.annoucement
+          });
+          yield put({ type: 'r_save', payload: payload });
           Notification('success', msg);
+        } else {
+          Notification('error', msg);
         }
-        yield put({ type: 'r_saveConverseLoading', payload: false })
+        yield put({ type: 'r_save', payload: { converseLoading: false } });
       } catch (error) {
-        yield put({ type: 'r_saveConverseLoading', payload: false })
+        yield put({ type: 'r_save', payload: { converseLoading: false } });
         Notification('error', '错误');
+      }
+    },
+    // 得到roomMenu
+    *e_getRoomMenu(action, { put, call }) {
+      try {
+        yield put({ type: 'r_save', payload: { converseLoading: true, menuLoading: true } });
+        let { code, data, msg } = yield call(Service.getRoomMenu);
+        if (code === 200 && data.length !== 0) {
+          yield put({ type: 'r_save', payload: { roomList: data } })
+        } else {
+          Notification('error', msg);
+        }
+        yield put({ type: 'r_save', payload: { converseLoading: false, menuLoading: false } });
+      } catch (error) {
+        yield put({ type: 'r_save', payload: { converseLoading: false, menuLoading: false } });
+        Notification('error', '请求错误');
       }
     }
   },
@@ -142,14 +188,6 @@ export default {
     r_saveSearchUserList(state, { payload }) {
       console.log(payload);
       return { ...state, searchUserList: [{ userName: 'George James', avatar: ['G', '#f56a00'] }] }
-    },
-    // save userAddLoading
-    r_saveUserAddLoading(state, { payload }) {
-      return { ...state, userAddLoading: payload }
-    },
-    // save roomSearchLoading
-    r_saveRoomSearchLoading(state, { payload }) {
-      return { ...state, roomSearchLoading: payload }
     },
     // save roomSearchLoading
     r_saveConverseLoading(state, { payload }) {

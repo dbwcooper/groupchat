@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import { getCookieByName } from './util';
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -17,14 +18,18 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-async function request(url, options) {
-  const response = await fetch(url, options);
+async function request(url, options = {}) {
+  const opts = {
+    mode: 'cors',
+    cache: 'default',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': getCookieByName()
+    },
+  };
+  const response = await fetch(url, { ...options, ...opts });
   checkStatus(response);
   const data = await response.json();
-  const ret = { data, headers: {} };
-  if (response.headers.get('x-total-count')) {
-    ret.headers['x-total-count'] = response.headers.get('x-total-count');
-  }
-  return ret;
+  return data;
 }
 export default request;

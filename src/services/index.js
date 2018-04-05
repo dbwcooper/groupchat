@@ -1,4 +1,7 @@
 import request from '../utils/request'; // eslint-disable-line
+
+const Api = 'http://localhost:8001/api/';
+
 export function addConverse(converse) { // eslint-disable-line
   return { code: 200 };
 }
@@ -10,26 +13,26 @@ export function inviteUsers() {
   return request('https://randomuser.me/api/?results=10');
 }
 
-export function searchRoom(roomName) {
-  console.log(roomName);
-  return {
-    code: 200,
-    msg: 'success',
-    data: [{ roomName: 'Nodejs 交流群', roomId: '1' },
-      { roomName: 'Koa 交流群', roomId: '2' },
-      { roomName: 'Express 交流群', roomId: '3' },
-      { roomName: 'Egg 交流群', roomId: '4' },
-      { roomName: 'Hapi 交流群', roomId: '5' }],
-  };
+/**
+ * 根据输入的群组title 查找群组列表
+ * @export
+ * @param {any} title
+ * @returns []
+ */
+export function searchRoom(title) {
+  return request(`${Api}chatroom/list/${title}`, {
+    method: 'GET'
+  });
 }
 /**
  * @export
  * @param {any} roomId 聊天室名
  * @returns 聊天室内的消息记录
  */
-export function getConverse(roomId) {
-  console.log(roomId);
-  return request('https://randomuser.me/api/?results=10');
+export function getConverse(roomLink) {
+  return request(`${Api}chatroom/${roomLink}`, {
+    method: 'GET'
+  });
 }
 
 /**
@@ -38,17 +41,15 @@ export function getConverse(roomId) {
  * @param {any} body {userName, pwd, rpwd}
  * 返回一个data {code: 200, msg: '', token: '12312ssd'}
  */
-export function register(body) {
-  console.log(body)
-  return {
-    code: 200,
-    msg: '注册成功',
-    data: {
-      token: 'das1231dad',
-      avatar: { alif: 'C', color: '#f56a00' },
-      roomList: [{ roomName: 'Nodejs 交流群', roomId: '1' }, { roomName: 'Koa 交流群', roomId: '2' }],
-    }
-  };
+/**
+ * 注册一个用户
+ * @param {*用户信息} user
+ */
+export function register(user) {
+  return request(`${Api}user/register`, {
+    method: 'POST',
+    body: JSON.stringify(user),
+  });
 }
 
 /**
@@ -58,16 +59,27 @@ export function register(body) {
  * @returns data {code: 200, msg: '', token: '12312ssd'}
  */
 export function login(body) {
-  console.log(body)
-  return {
-    code: 200,
-    msg: '登录成功',
-    data: {
-      token: 'das1231dad',
-      avatar: { alif: 'C', color: '#f56a00' },
-      roomList: [{ roomName: 'Nodejs 交流群', roomId: '1' }, { roomName: 'Koa 交流群', roomId: '2' }],
-    }
-  };
+  return request(`${Api}user/login`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+}
+
+export function createRoom(body) {
+  return request(`${Api}chatroom/create`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+}
+/**
+ * 获取roomMenu
+ * @export
+ * @returns
+ */
+export function getRoomMenu() {
+  return request(`${Api}chatroom/roomMenu`, {
+    method: 'GET'
+  });
 }
 
 /**
