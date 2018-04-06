@@ -13,7 +13,7 @@ class RoomSelect extends React.Component {
     }
     onSelect = (key, option) => {
       if (key) {
-        this.props.dispatch({ type: 'room/e_getConverseByRoomLink', payload: { roomLink: key, title: option.props.children } });
+        this.props.dispatch({ type: 'room/e_getRoomDetail', payload: { roomLink: key, title: option.props.children } });
       }
     }
     fetchRoom = (value) => {

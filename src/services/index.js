@@ -2,8 +2,18 @@ import request from '../utils/request'; // eslint-disable-line
 
 const Api = 'http://localhost:8001/api/';
 
-export function addConverse(converse) { // eslint-disable-line
-  return { code: 200 };
+
+/**
+ * 增加一条用户聊天消息
+ * @export
+ * @param {any} body
+ * @returns
+ */
+export function createComment(body) {
+  return request(`${Api}comment/${body.roomLink}`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
 }
 export function getUser() {
   return request('https://randomuser.me/api/?results=10');
@@ -29,7 +39,7 @@ export function searchRoom(title) {
  * @param {any} roomId 聊天室名
  * @returns 聊天室内的消息记录
  */
-export function getConverse(roomLink) {
+export function getRoomDetail(roomLink) {
   return request(`${Api}chatroom/${roomLink}`, {
     method: 'GET'
   });

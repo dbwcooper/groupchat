@@ -9,11 +9,12 @@ const Notification = (type, description) => {
 };
 
 const formatTime = (moment) => {
-  if (moment > 0) {
-    let date = new Date(moment * 1);
+  try {
+    let date = new Date(moment);
     return date.getFullYear() + '/' + (date.getMonth() + 1 + '/') + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes();
+  } catch (error) {
+    return moment;
   }
-  return moment;
 }
 
 // cookie 的保存方式 key=value; key1=value; key2=value;

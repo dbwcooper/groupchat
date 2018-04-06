@@ -18,11 +18,11 @@ class Converse extends React.Component {
       moment: new Date().getTime()
     }
     this.setState({ content: '' })
-    this.props.dispatch({ type: 'room/e_increaseRemark', payload: value })
+    this.props.dispatch({ type: 'room/e_createComment', payload: value })
   }
   onEnterM = (content) => {
     this.setState({ visible: false })
-    this.props.dispatch({ type: 'room/e_increaseRemark', payload: content })
+    this.props.dispatch({ type: 'room/e_createComment', payload: content })
   }
   onChangeHandle = (e) => {
     this.setState({ content: e.target.value })

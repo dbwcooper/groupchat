@@ -16,30 +16,29 @@ export default {
     searchUserList: [],
     searchRoomList: [],
     roomList: [],
-    converseList: [{
-      userName: 'George James', avatar: { color: '#1890ff', alif: 'C' }, moment: 1521300207000, content: '<span style="color: red">12321332</span>', md: true
-    }, {
-      userName: 'George Jamess', avatar: { color: '#f56a00', alif: 'G' }, moment: 1521300208000, content: '### 代码markdown', md: true
-    }]
+    converseList: []
   },
   subscriptions: {
     setup({ dispatch }) {
-      dispatch({ type: 'e_getRoomMenu' });
+      dispatch({ type: 'e_getRoomMenu' }); // 获取左边的menu
+      dispatch({ type: 'e_getRoomDetail' }); // 获取左边的menu
     },
   },
   effects: {
-    *e_increaseRemark({ payload }, { select, put }) {
+    *e_createComment({ payload }, { select, put }) {
       try {
-        let user = yield select(state => state.user);
-        if (!user.userName) {
+        let userState = yield select(state => state.user);
+        let roomLink = yield select(state => state.room.roomLink);
+        if (!userState.userName) {
           Notification('error', '请重新登陆');
           return;
         }
-        payload.userName = user.userName;
-        let data = yield Service.addConverse(payload);
+        payload.userName = userState.userName;
+        payload.avatar = userState.avatar;
+        payload.roomLink = roomLink;
+        let data = yield Service.createComment(payload);
         if (data.code === 200) {
           // 插入content 的 converseList列表中
-          payload.avatar = user.avatar;
           yield put({ type: 'r_saveConverse', payload });
           Notification('success', 'success');
         } else {
@@ -96,7 +95,7 @@ export default {
       }
     },
     // 根据用户选择的room 获取对应的聊天室内的对话信息
-    *e_getConverseByRoomLink({ payload }, { put, call, select }) {
+    *e_getRoomDetail({ payload }, { put, call, select }) {
       try {
         yield put({ type: 'r_save', payload: { converseLoading: true } });
         let result = {};
@@ -110,16 +109,19 @@ export default {
           // 先检查左边的roomMenu是否存在此roomLink
           let existLink = result.roomList.some(item => item.roomLink === payload.roomLink);
           if (!existLink) result.roomList.push(payload);
-        } else {
+        } else if (payload) {
           // 左边menu的点击事件
           let room = roomState.roomList.find(item => item.roomLink === payload);
           result.title = room.title;
           result.roomLink = room.roomLink;
+        } else {
+          // 首次进入页面
+          result.roomLink = roomState.roomLink;
         }
-        let { code, data, msg } = yield call(Service.getConverse, result.roomLink);
+        // 首次根据roomLink获取comment 列表对话信息
+        let { code, data, msg } = yield call(Service.getRoomDetail, result.roomLink);
         if (code === 200) {
-          result.annoucement = data.annoucement;
-          yield put({ type: 'r_save', payload: result })
+          yield put({ type: 'r_save', payload: data });
           Notification('success', msg);
         } else {
           Notification('error', msg);

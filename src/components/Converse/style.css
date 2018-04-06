@@ -1,0 +1,43 @@
+.flex-r {
+  display: flex;
+  flex-direction: row;
+}
+.converse-item {
+  padding: 8px;
+}
+.converse-item > span {
+  display: inline-block;
+  margin-right: 8px;
+  margin-top: 6px;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.converse-item .chat-content {
+  flex: 1;
+  width: 100%;
+  overflow-x: scroll;
+}
+.converse-item .chat-content .chat-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 16px;
+  margin: 4px 0;
+}
+.converse-item .chat-content .chat-title > span {
+  font-weight: bold;
+}
+.converse-item .chat-content div:nth-of-type(2) {
+  background: #e5e5e5;
+  padding: 8px;
+}
+.converse-item .chat-content p {
+  background: #e5e5e5;
+  padding: 8px;
+}
+.converse-item .chat-content :global code {
+  width: 100%;
+  white-space: pre-line;
+}
