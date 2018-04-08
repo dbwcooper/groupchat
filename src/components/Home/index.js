@@ -10,20 +10,21 @@ import styles from './style.less';
 const { Content } = Layout;
 
 class Home extends React.Component {
-  getConverseList = () => {
-    return this.props.room.converseList.map(item => <Converse key={item.moment} {...item} />)
+  getConverseList = (converseList) => {
+    return converseList.map(item => <Converse key={item.moment} {...item} />)
   }
   render() {
+    const { converseLoading, converseList } = this.props.room;
     return (
       <Layout className={styles['main-layout']}>
         <SiderGroup {...this.props} />
-        <Spin spinning={this.props.room.converseLoading}>
+        <Spin spinning={converseLoading}>
           <Layout>
             <PageHeader {...this.props} />
             <Content className={styles['right-box']}>
               <div className={styles['converse-box']}>
                 <div className={styles.content}>
-                  {this.getConverseList()}
+                  {this.getConverseList(converseList)}
                 </div>
                 <InputArea {...this.props} />
               </div>

@@ -8,7 +8,7 @@ export default class RoomMenu extends Component {
     this.props.dispatch({ type: 'room/e_getRoomDetail', payload: item.key })
   }
   getMenuList = (roomList = []) => {
-    return roomList.map(item => (<MenuItem key={item.roomLink}> <Icon type="github" /> <span>{item.roomLink}</span> </MenuItem>))
+    return roomList.map(roomLink => (<MenuItem key={roomLink}> <Icon type="github" /> <span>{roomLink}</span> </MenuItem>))
   }
   render() {
     return (

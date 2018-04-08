@@ -6,6 +6,8 @@ export default {
   state: {
     // userName: 'George James ',
     // avatar: { alif: '段', color: '#f56a00' }
+    searchUserList: [],
+    userAddLoading: false,
   },
   subscriptions: {
     setup({ dispatch, history }) {  // eslint-disable-line
@@ -18,11 +20,9 @@ export default {
       const { code, msg, data } = yield call(Service.register, payload);
       if (code === 200) {
         yield setCookie('token', data.token, 7);
-        data.userName = payload.userName;
-        data.avatar = payload.avatar;
-        yield put({ type: 'r_save', payload: data });
-
-        yield put({ type: 'e_getRoomMenu' });
+        yield put({ type: 'r_save', payload: { userName: payload.userName, avatar: payload.avatar } });
+        delete data.token;
+        yield put({ type: 'room/r_save', payload: data });
         Notification('success', msg);
       } else {
         Notification('error', msg);
@@ -34,12 +34,9 @@ export default {
       if (code === 200) {
         yield setCookie('token', data.token, 7);
         data.userName = payload.userName;
-        // 如果返回了roomList才执行 roomList的保存
-        if (data.roomList && data.roomList.length !== 0) {
-          yield put({ type: 'room/r_save', payload: { roomList: data.roomList } })
-        }
-        // 保存用户信息
-        yield setCookie('token', data.token, 7);
+        yield put({ type: 'room/r_save', payload: { roomList: data.roomList } });
+        delete data.token;
+        delete data.roomList;
         yield put({ type: 'r_save', payload: data });
         Notification('success', msg);
       } else {
@@ -57,10 +54,44 @@ export default {
         Notification('error', msg);
       }
     },
+    // 根据用户名模糊查询用户列表
+    *e_getUserList({ payload }, { put, call }) {
+      try {
+        yield put({ type: 'r_save', payload: { userAddLoading: true } });
+        let { code, msg, data } = yield call(Service.getUserList, payload);
+        if (code === 200) {
+          yield put({ type: 'r_save', payload: { searchUserList: data } });
+        } else {
+          Notification('error', msg);
+        }
+        yield put({ type: 'r_save', payload: { userAddLoading: false } });
+      } catch (error) {
+        Notification('error', error.TypeError);
+        yield put({ type: 'r_save', payload: { userAddLoading: false } });
+      }
+    },
+    *e_inviteUser({ payload }, { select, call }) {
+      try {
+        debugger;
+        if (!payload || payload.length === 0) {
+          return;
+        }
+        // 获取当前所在聊天室
+        let roomLink = yield select(state => state.room.roomLink);
+        let { code, msg } = yield call(Service.inviteUser, { roomLink, userName: payload });
+        if (code === 200) {
+          Notification('success', msg);
+        } else {
+          Notification('error', msg);
+        }
+      } catch (error) {
+        Notification('error', '错误');
+      }
+    }
   },
   reducers: {
-    r_save(state, action) {
-      return { ...state, ...action.payload };
+    r_save(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
 };

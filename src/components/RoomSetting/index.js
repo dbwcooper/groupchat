@@ -41,7 +41,8 @@ class RoomSetting extends React.Component {
           title={`在线人数(${this.props.room.onlineList.length})`}
           className={styles.avatar}
         >
-          {this.props.room.onlineList.map(item => (<MyAvatar avatar={item} key={item.userName} />))}
+          {this.props.room.onlineList.map(item =>
+            (<MyAvatar avatar={item.avatar} userName={item.userName} key={item.userName} />))}
           <Icon type="plus-circle-o" onClick={this.onUserAdd} />
         </Card>
       </div>

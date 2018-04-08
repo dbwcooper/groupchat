@@ -3,6 +3,6 @@ html, body, :global(#root) {
   height: 100vh;
 }
 
- ::-webkit-scrollbar {
+ /* ::-webkit-scrollbar {
    display: none;
- }
+ } */

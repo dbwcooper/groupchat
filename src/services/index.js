@@ -1,7 +1,8 @@
-import request from '../utils/request'; // eslint-disable-line
+import request from '../utils/request';
+import { Notification } from '../utils/util';
+import Room from '../models/room';
 
 const Api = 'http://localhost:8001/api/';
-
 
 /**
  * 增加一条用户聊天消息
@@ -15,12 +16,17 @@ export function createComment(body) {
     body: JSON.stringify(body),
   });
 }
-export function getUser() {
-  return request('https://randomuser.me/api/?results=10');
+export function getUserList(userName) {
+  return request(`${Api}user/list/${userName}`, {
+    method: 'GET',
+  });
 }
 
-export function inviteUsers() {
-  return request('https://randomuser.me/api/?results=10');
+export function inviteUser(body) {
+  return request(`${Api}user/invite`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
 }
 
 /**
@@ -100,3 +106,33 @@ export function getRoomMenu() {
 export function logout() {
   return { code: 200, msg: '' }
 }
+
+
+// 评论内容使用websocket实现自动获取和发布
+
+const socket = new window.WebSocket('ws://localhost:8001/comment');
+
+socket.addEventListener('open', (event) => {
+  console.log('event', event)
+});
+
+socket.addEventListener('message', (event) => {
+  console.log('Message from server', event.data);
+  let result = JSON.parse(event.data);
+  if (result.code === 400) {
+    Notification('error', result.msg);
+  } else {
+    console.log(Room);
+    // 更新留言板
+    window.dispatch({ type: 'r_saveComment', payload: result });
+  }
+});
+
+socket.addEventListener('error', (error) => {
+  Notification('error', '网络延迟' + error);
+});
+
+export function updateComment(comment) {
+  socket.send(JSON.stringify(comment));
+}
+

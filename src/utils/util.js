@@ -11,7 +11,7 @@ const Notification = (type, description) => {
 const formatTime = (moment) => {
   try {
     let date = new Date(moment);
-    return date.getFullYear() + '/' + (date.getMonth() + 1 + '/') + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes();
+    return date.getFullYear() + '/' + (date.getMonth() + 1 + '/') + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
   } catch (error) {
     return moment;
   }

@@ -21,9 +21,10 @@ class myAvatar extends React.Component {
     }
   }
   render() {
+    const { userName, avatar } = this.props;
     return (
-      this.props.avatar
-        ? (<Tooltip placement="topLeft" title={this.props.avatar.userName}> {this.getAvatar(this.props.avatar)} </Tooltip>)
+      avatar
+        ? (<Tooltip placement="topLeft" title={userName}> {this.getAvatar(avatar)} </Tooltip>)
         : <Avatar shape="square" size="large" icon="user" />
     )
   }
