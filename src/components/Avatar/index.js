@@ -12,13 +12,22 @@ class myAvatar extends React.Component {
     if (avatar.alif) {
       // 传入为首字母和颜色
       return (
-        <Avatar shape="square" size="large" className={styles['avatar-color']} style={{ backgroundColor: avatar.color }}>
+        <Avatar
+          shape="square"
+          size="large"
+          className={styles['avatar-color']}
+          style={{ backgroundColor: avatar.color }}
+        >
           {avatar.alif}
         </Avatar>
       )
-    } else {
-      return (<Avatar size="large" shape="square" className={styles['avatar-pic']} src={avatar.pic} />)
     }
+    return (<Avatar
+      size="large"
+      shape="square"
+      className={styles['avatar-pic']}
+      src={avatar.pic}
+    />)
   }
   render() {
     const { userName, avatar } = this.props;

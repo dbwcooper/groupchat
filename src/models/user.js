@@ -23,7 +23,6 @@ export default {
         yield put({ type: 'r_save', payload: { userName: payload.userName, avatar: payload.avatar } });
         delete data.token;
         yield put({ type: 'room/r_save', payload: data });
-        Notification('success', msg);
       } else {
         Notification('error', msg);
       }
@@ -49,7 +48,6 @@ export default {
         let userName = yield select(state => state.user.userName);
         yield delCookieByName(userName);
         yield put({ type: 'r_save', payload: { userName: null, avatar: null } })
-        Notification('success', msg);
       } else {
         Notification('error', msg);
       }
@@ -79,9 +77,7 @@ export default {
         // 获取当前所在聊天室
         let roomLink = yield select(state => state.room.roomLink);
         let { code, msg } = yield call(Service.inviteUser, { roomLink, userName: payload });
-        if (code === 200) {
-          Notification('success', msg);
-        } else {
+        if (code !== 200) {
           Notification('error', msg);
         }
       } catch (error) {

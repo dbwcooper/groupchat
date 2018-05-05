@@ -21,7 +21,7 @@ class RoomSelect extends React.Component {
     return (
       <Select
         mode="combobox"
-        placeholder="Select Room"
+        placeholder="搜索聊天室"
         notFoundContent={roomSearchLoading ? <Spin size="small" /> : '无数据'}
         onSearch={this.fetchRoom}
         onSelect={this.onSelect}

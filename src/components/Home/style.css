@@ -1,0 +1,42 @@
+.main-layout {
+  height: 100vh;
+}
+.main-layout :global .ant-layout {
+  height: 100vh;
+}
+.main-layout :global .ant-spin-nested-loading {
+  width: 100%;
+}
+.main-layout :global .ant-layout-sider-children {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.main-layout :global .ant-spin-nested-loading > div > .ant-spin {
+  max-height: 100%;
+}
+.main-layout .group-add {
+  position: absolute;
+  background: 'red';
+  bottom: 48px;
+}
+.main-layout .right-box {
+  margin: 16px;
+  height: calc(100% - 80px);
+  display: flex;
+  flex-direction: row;
+}
+.main-layout .converse-box {
+  padding: 16;
+  background: #fff;
+  width: 80%;
+}
+.main-layout .converse-box .content {
+  overflow: auto;
+  height: calc(100% - 100px);
+}
+.main-layout .room-users {
+  height: 100%;
+  width: 20%;
+  background: green;
+  padding: 24px;
+}

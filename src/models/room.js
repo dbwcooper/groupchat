@@ -41,15 +41,15 @@ export default {
       }
     },
     // 搜索群组
-    *e_getSearchRoomList(action, { put, call }) {
+    *e_getSearchRoomList({ payload }, { put, call }) {
       try {
+        if (!payload) return;
         yield put({ type: 'r_save', payload: { roomSearchLoading: true } })
-        let { code, data, msg } = yield call(Service.searchRoom, action.payload);
+        let { code, data, msg } = yield call(Service.searchRoom, payload);
         if (code === 200) {
-          yield put({ type: 'r_save', payload: { searchRoomList: data } })
-        } else {
-          Notification('error', msg);
+          return yield put({ type: 'r_save', payload: { searchRoomList: data } })
         }
+        Notification('error', msg);
         yield put({ type: 'r_save', payload: { roomSearchLoading: false } })
       } catch (error) {
         yield put({ type: 'r_save', payload: { roomSearchLoading: false } })
@@ -76,7 +76,6 @@ export default {
         let { code, data, msg } = yield call(Service.getRoomDetail, roomLink);
         if (code === 200) {
           yield put({ type: 'r_save', payload: data });
-          Notification('success', msg);
         } else {
           Notification('error', msg);
         }
@@ -101,7 +100,6 @@ export default {
           let onlineList = [{ avatar: user.avatar, userName: user.userName }];
           payload.onlineList = onlineList;
           yield put({ type: 'r_save', payload: payload });
-          Notification('success', msg);
         } else {
           Notification('error', msg);
         }

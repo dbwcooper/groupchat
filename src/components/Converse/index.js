@@ -1,23 +1,30 @@
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
+// import ReactMarkdown from 'react-markdown';
 import { formatTime } from '../../utils/util';
 import MyAvatar from '../Avatar';
 import styles from './style.less';
 
 class Converse extends React.Component {
   render() {
+    const {
+      md,
+      userName,
+      moment,
+      avatar,
+      content
+    } = this.props;
     return (
       <div className={styles['flex-r'] + ' ' + styles['converse-item']}>
-        <MyAvatar avatar={this.props.avatar} />
+        <MyAvatar avatar={avatar} />
         <div className={styles['chat-content']}>
           <div className={styles['chat-title']}>
-            <span>{this.props.userName}</span>
-            <span>{formatTime(this.props.moment)}</span>
+            <span>{userName}</span>
+            <span>{formatTime(moment)}</span>
           </div>
           {
-            this.props.md
-            ? <ReactMarkdown source={this.props.content} />
-            : (<p> {this.props.content} </p>)
+            md
+            ? <pre><code>{content}</code></pre>
+            : (<p> {content} </p>)
           }
         </div>
       </div>

@@ -26,7 +26,7 @@ class SiderGroup extends React.Component {
         >
           <div className={styles.logo}>
             <RoomSelect {...this.props} />
-            <Button icon="plus" onClick={this.onVisible.bind(this, true)}>ADD A ROOM</Button>
+            <Button icon="plus" onClick={this.onVisible.bind(this, true)}>创建聊天室</Button>
           </div>
           <Spin spinning={this.props.room.menuLoading} style={{ height: 400 }}>
             <RoomAdd
