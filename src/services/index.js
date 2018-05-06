@@ -29,6 +29,11 @@ export function inviteUser(body) {
   });
 }
 
+export function verification() {
+  return request(`${Api}user/token`, {
+    method: 'GET'
+  });
+}
 /**
  * 根据输入的群组title 查找群组列表
  * @export

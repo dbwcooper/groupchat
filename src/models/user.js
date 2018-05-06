@@ -1,19 +1,41 @@
 import * as Service from '../services';
-import { Notification, setCookie, delCookieByName, randomAvatar } from '../utils/util';
+import {
+  Notification,
+  setCookie,
+  delCookieByName,
+  randomAvatar
+} from '../utils/util';
 
 export default {
   namespace: 'user',
   state: {
     // userName: 'George James ',
     // avatar: { alif: '段', color: '#f56a00' }
+    // userName: '',
+    // avatar: {
+    //   alif: '',
+    //   color: '',
+    // },
     searchUserList: [],
     userAddLoading: false,
   },
   subscriptions: {
     setup({ dispatch, history }) {  // eslint-disable-line
+      // 从cookie中获取userName, avatar
+      dispatch({ type: 'e_verification' });
     },
   },
   effects: {
+    // 验证token是否过期
+    *e_verification(action, { call, put }) {
+      const { code, msg, data } = yield call(Service.verification);
+      if (code === 200) {
+        yield put({ type: 'r_save', payload: data });
+        yield put({ type: 'room/r_save', payload: data });
+        return;
+      }
+      Notification('error', msg);
+    },
     *e_register({ payload }, { call, put }) {
       // 随机生成用户头像
       payload.avatar = randomAvatar(payload.userName);
@@ -28,7 +50,6 @@ export default {
       }
     },
     *e_login({ payload }, { call, put }) {
-      // 随机生成用户头像
       const { code, msg, data } = yield call(Service.login, payload);
       if (code === 200) {
         yield setCookie('token', data.token, 7);
@@ -70,7 +91,6 @@ export default {
     },
     *e_inviteUser({ payload }, { select, call }) {
       try {
-        debugger;
         if (!payload || payload.length === 0) {
           return;
         }

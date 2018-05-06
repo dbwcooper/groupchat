@@ -17,6 +17,8 @@ class RoomSetting extends React.Component {
     this.setState({ visible: false })
   }
   render() {
+    const { onlineList, annoucement } = this.props.room;
+    const { visible } = this.state;
     return (
       <div style={{ flex: 1 }}>
         <Collapse
@@ -29,21 +31,28 @@ class RoomSetting extends React.Component {
             key="1"
             style={{ border: 0 }}
           >
-            {this.props.room.annoucement}
+            {annoucement}
           </Panel>
         </Collapse>
         <ModalUsers
           {...this.props}
-          visible={this.state.visible}
+          visible={visible}
           closeModal={this.closeModal}
         />
         <Card
-          title={`在线人数(${this.props.room.onlineList.length})`}
+          title={`在线人数(${onlineList.length})`}
           className={styles.avatar}
         >
-          {this.props.room.onlineList.map(item =>
-            (<MyAvatar avatar={item.avatar} userName={item.userName} key={item.userName} />))}
-          <Icon type="plus-circle-o" onClick={this.onUserAdd} />
+          {onlineList.map(item =>
+            (<MyAvatar
+              avatar={item.avatar}
+              userName={item.userName}
+              key={item.userName}
+            />))}
+          <Icon
+            type="plus-circle-o"
+            onClick={this.onUserAdd}
+          />
         </Card>
       </div>
     );
