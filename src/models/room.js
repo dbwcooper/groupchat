@@ -81,12 +81,7 @@ export default {
         let { code, data, msg } = yield call(Service.getRoomDetail, roomLink);
         if (code === 200) {
           userName = yield select(state => state.user.userName);
-          data.isUserExist = false;
-          data.onlineList.forEach((element) => {
-            if (element.userName === userName) {
-              data.isUserExist = true;
-            }
-          }); // 判断用户是否在群组内
+          data.isUserExist = data.onlineList.some(element => element.userName === userName);
           yield put({ type: 'r_save', payload: data });
         } else {
           Notification('error', msg);
