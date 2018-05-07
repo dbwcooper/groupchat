@@ -12,17 +12,20 @@ class Converse extends React.Component {
     visible: false
   }
   onEnter = () => {
-    if (!this.state.content) return;
+    const { content } = this.state;
+    const { dispatch } = this.props;
+    if (!content) return;
     let value = {
-      content: this.state.content,
+      content: content,
       moment: new Date().getTime()
     }
     this.setState({ content: '' })
-    this.props.dispatch({ type: 'room/e_createComment', payload: value })
+    dispatch({ type: 'room/e_createComment', payload: value })
   }
   onEnterM = (content) => {
+    const { dispatch } = this.props;
     this.setState({ visible: false })
-    this.props.dispatch({ type: 'room/e_createComment', payload: content })
+    dispatch({ type: 'room/e_createComment', payload: content })
   }
   onChangeHandle = (e) => {
     this.setState({ content: e.target.value })
@@ -31,16 +34,34 @@ class Converse extends React.Component {
     this.setState({ visible: flag })
   }
   render() {
+    const { avatar, disable } = this.props;
+    const { content, visible } = this.state;
     return (
-      <div className={styles['flex-r'] + ' ' + styles['input-area']}>
-        <MyAvatar avatar={this.props.user.avatar} />
-        <TextArea value={this.state.content} rows={2} onChange={this.onChangeHandle} />
+      <div
+        className={styles['flex-r'] + ' ' + styles['input-area']}
+      >
+        <div className={disable ? 'component-disable' : ''} />
+        <MyAvatar
+          avatar={avatar}
+        />
+        <TextArea
+          value={content}
+          rows={2}
+          onChange={this.onChangeHandle}
+        />
         <div className={`icon-settings ${styles['flex-c']}`}>
-          <Icon type="arrow-up" style={{ color: '#1890ff' }} onClick={this.onEnter} />
-          <Icon type="file-markdown" onClick={this.onMarkDown.bind(this, true)} />
+          <Icon
+            type="arrow-up"
+            style={{ color: '#1890ff' }}
+            onClick={this.onEnter}
+          />
+          <Icon
+            type="file-markdown"
+            onClick={this.onMarkDown.bind(this, true)}
+          />
         </div>
         <MarkDownModal
-          visible={this.state.visible}
+          visible={visible}
           onMarkDown={this.onMarkDown}
           onEnter={this.onEnterM}
         />

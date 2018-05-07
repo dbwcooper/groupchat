@@ -17,7 +17,7 @@ class RoomSetting extends React.Component {
     this.setState({ visible: false })
   }
   render() {
-    const { onlineList, annoucement } = this.props.room;
+    const { onlineList, annoucement, isUserExist } = this.props.room;
     const { visible } = this.state;
     return (
       <div style={{ flex: 1 }}>
@@ -49,10 +49,11 @@ class RoomSetting extends React.Component {
               userName={item.userName}
               key={item.userName}
             />))}
-          <Icon
+          { isUserExist && <Icon
             type="plus-circle-o"
             onClick={this.onUserAdd}
           />
+          }
         </Card>
       </div>
     );

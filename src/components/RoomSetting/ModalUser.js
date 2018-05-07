@@ -21,11 +21,15 @@ class ModalUsers extends React.Component {
   }
   // 添加用户
   inviteUsers = () => {
-    this.props.dispatch({
-      type: 'user/e_inviteUser',
-      payload: this.state.value
-    });
-    this.props.closeModal();
+    const { value } = this.state;
+    const { dispatch, closeModal } = this.props;
+    if (value) {
+      dispatch({
+        type: 'user/e_inviteUser',
+        payload: value
+      });
+      closeModal();
+    }
   }
   render() {
     const { visible, closeModal } = this.props;

@@ -9,7 +9,7 @@ import styles from './style.less'
  */
 class myAvatar extends React.Component {
   getAvatar = (avatar) => {
-    if (avatar.alif) {
+    if (avatar && avatar.alif) {
       // 传入为首字母和颜色
       return (
         <Avatar
@@ -33,8 +33,18 @@ class myAvatar extends React.Component {
     const { userName, avatar } = this.props;
     return (
       avatar
-        ? (<Tooltip placement="topLeft" title={userName}> {this.getAvatar(avatar)} </Tooltip>)
-        : <Avatar shape="square" size="large" icon="user" />
+        ? (
+          <Tooltip
+            placement="topLeft"
+            title={userName}
+          >
+            {this.getAvatar(avatar)}
+          </Tooltip>)
+        : <Avatar
+          shape="square"
+          size="large"
+          icon="user"
+        />
     )
   }
 }

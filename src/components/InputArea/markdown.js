@@ -11,24 +11,31 @@ class MarkDownModal extends React.Component {
     this.setState({ content: e.target.value })
   }
   handleOk = () => {
-    if (!this.state.content) return;
+    const { content } = this.state;
+    if (!content) return;
     let converse = {
       moment: new Date().getTime(),
-      content: this.state.content,
+      content: content,
       md: true,
     }
     this.setState({ content: '' });
     this.props.onEnter(converse);
   }
   render() {
+    const { onMarkDown, visible } = this.props;
+    const { content } = this.state;
     return (
       <Modal
         title="Markdown Contents"
-        visible={this.props.visible}
+        visible={visible}
         onOk={this.handleOk}
-        onCancel={this.props.onMarkDown.bind(this, false)}
+        onCancel={onMarkDown.bind(this, false)}
       >
-        <TextArea value={this.state.content} rows={14} onChange={this.onChangeHandle} />
+        <TextArea
+          value={content}
+          rows={14}
+          onChange={this.onChangeHandle}
+        />
       </Modal>
     );
   }

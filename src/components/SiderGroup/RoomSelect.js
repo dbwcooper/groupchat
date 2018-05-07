@@ -10,14 +10,16 @@ class RoomSelect extends React.Component {
   }
   onSelect = (key) => {
     if (key) {
-      this.props.dispatch({ type: 'room/e_getRoomDetail', payload: { roomLink: key } });
+      const { dispatch } = this.props;
+      dispatch({ type: 'room/e_getRoomDetail', payload: { roomLink: key } });
     }
   }
   fetchRoom = (value) => {
-    this.props.dispatch({ type: 'room/e_getSearchRoomList', payload: value })
+    const { dispatch } = this.props;
+    dispatch({ type: 'room/e_getSearchRoomList', payload: value })
   }
   render() {
-    const { searchRoomList, roomSearchLoading } = this.props.room;
+    const { searchRoomList, roomSearchLoading } = this.props;
     return (
       <Select
         mode="combobox"

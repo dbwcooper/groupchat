@@ -1,7 +1,6 @@
 import { Icon, Menu, Avatar, Dropdown, Button } from 'antd';
 import React from 'react';
 import PersonInfo from './PersonInfo';
-// import Avatar from '../Avatar';
 import styles from './style.less';
 
 class PageHeader extends React.Component {
@@ -11,18 +10,26 @@ class PageHeader extends React.Component {
   onVisibleChange = () => {
     this.setState({ visible: !this.state.visible })
   }
-  getOverlay = () => {
+  getOverlay = (avatar) => {
     const menuLogout = (
       <Menu>
         <Menu.Item>
-          <Button onClick={this.onVisibleChange}> 个人资料 </Button>
+          <Button onClick={this.onVisibleChange}> 切换用户 </Button>
         </Menu.Item>
         <Menu.Item>
           <Button onClick={this.logout}>注销</Button>
         </Menu.Item>
       </Menu>
     );
-    return menuLogout;
+    const menuLogout2 = (
+      <Menu>
+        <Menu.Item>
+          <Button onClick={this.onVisibleChange}>登陆</Button>
+        </Menu.Item>
+      </Menu>
+    );
+    if (avatar) return menuLogout
+    return menuLogout2;
   }
   logout = () => {
     // 注销登陆
@@ -40,7 +47,7 @@ class PageHeader extends React.Component {
           <span>{this.props.room.title}</span>
         </div>
         <div className={styles['page-setting']}>
-          <Dropdown overlay={this.getOverlay()} placement="bottomLeft">
+          <Dropdown overlay={this.getOverlay(avatar)} placement="bottomLeft">
             {
             avatar
             ? (<Avatar shape="square" size="large" className={styles['avatar-color']} style={{ backgroundColor: avatar.color }}>{avatar.alif}</Avatar>)

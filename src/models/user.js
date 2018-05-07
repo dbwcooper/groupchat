@@ -22,7 +22,6 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {  // eslint-disable-line
       // 从cookie中获取userName, avatar
-      dispatch({ type: 'e_verification' });
     },
   },
   effects: {
@@ -89,17 +88,16 @@ export default {
         yield put({ type: 'r_save', payload: { userAddLoading: false } });
       }
     },
-    *e_inviteUser({ payload }, { select, call }) {
+    *e_inviteUser({ payload }, { select, call, put }) {
       try {
-        if (!payload || payload.length === 0) {
-          return;
-        }
         // 获取当前所在聊天室
         let roomLink = yield select(state => state.room.roomLink);
-        let { code, msg } = yield call(Service.inviteUser, { roomLink, userName: payload });
-        if (code !== 200) {
-          Notification('error', msg);
+        let { code, msg, data } = yield call(Service.inviteUser, { roomLink, userName: payload });
+        if (code === 200) {
+          yield put({ type: 'room/r_save', payload: data });
+          return Notification('success', '邀请成功!');
         }
+        Notification('error', msg);
       } catch (error) {
         Notification('error', '错误');
       }

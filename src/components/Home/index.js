@@ -13,12 +13,6 @@ const { Content } = Layout;
 const { Element, scroller } = Scroll;
 class Home extends React.Component {
   componentDidMount = () => {
-    // Events.scrollEvent.register('begin', (to, element) => {
-    //   console.log('begin', element);
-    // });
-    // Events.scrollEvent.register('end', (to, element) => {
-    //   console.log('end', element);
-    // });
     scroller.scrollTo('bottomEle', {
       duration: 1500,
       delay: 100,
@@ -42,7 +36,9 @@ class Home extends React.Component {
     return converseList.map(item => <Converse key={item.moment} {...item} />)
   }
   render() {
-    const { converseLoading, converseList } = this.props.room;
+    const { converseLoading, converseList, isUserExist } = this.props.room;
+    const { avatar } = this.props.user;
+    const { dispatch } = this.props;
     return (
       <Layout className={styles['main-layout']}>
         <SiderGroup {...this.props} />
@@ -59,9 +55,15 @@ class Home extends React.Component {
                   {this.getConverseList(converseList)}
                   <Element name="bottomEle" />
                 </Element>
-                <InputArea {...this.props} />
+                <InputArea
+                  avatar={avatar}
+                  dispatch={dispatch}
+                  disable={!isUserExist}
+                />
               </div>
-              <RoomSetting {...this.props} />
+              <RoomSetting
+                {...this.props}
+              />
             </Content>
           </Layout>
         </Spin>

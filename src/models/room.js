@@ -13,13 +13,14 @@ export default {
     onlineList: [],
     searchRoomList: [],
     roomList: [], // roomList['nodejs', 'groupchat']
-    converseList: []
+    converseList: [],
+    isUserExist: false,
   },
   subscriptions: {
     setup({ dispatch }) {
       window.dispatch = dispatch; // 保存dispatch到window对象
-      dispatch({ type: 'e_getRoomMenu' }); // 获取左边的menu
-      dispatch({ type: 'e_getRoomDetail' }); // 获取左边的menu
+      dispatch({ type: 'e_getRoomMenu' });
+      dispatch({ type: 'e_getRoomDetail' });
     },
   },
   effects: {
@@ -73,8 +74,19 @@ export default {
           // 左边menu的点击事件
           roomLink = payload;
         }
+        let userName = yield select(state => state.user.userName);
+        if (!userName) {
+          yield put({ type: 'user/e_verification' });
+        }
         let { code, data, msg } = yield call(Service.getRoomDetail, roomLink);
         if (code === 200) {
+          userName = yield select(state => state.user.userName);
+          data.isUserExist = false;
+          data.onlineList.forEach((element) => {
+            if (element.userName === userName) {
+              data.isUserExist = true;
+            }
+          }); // 判断用户是否在群组内
           yield put({ type: 'r_save', payload: data });
         } else {
           Notification('error', msg);
@@ -99,6 +111,7 @@ export default {
           payload.roomList.push(payload.roomLink);
           let onlineList = [{ avatar: user.avatar, userName: user.userName }];
           payload.onlineList = onlineList;
+          payload.converseList = [];
           yield put({ type: 'r_save', payload: payload });
         } else {
           Notification('error', msg);

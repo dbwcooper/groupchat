@@ -8,22 +8,24 @@ class RoomAddForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.dispatch({
+        const { dispatch, onVisible } = this.props;
+        dispatch({
           type: 'room/e_createRoom',
           payload: values
         })
-        this.props.onVisible();
+        onVisible();
       }
     });
   }
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { visible, onVisible } = this.props;
     return (
       <Modal
         title="创建聊天室"
-        visible={this.props.visible}
+        visible={visible}
         onOk={this.handleSubmit}
-        onCancel={this.props.onVisible}
+        onCancel={onVisible}
         okText="提交"
         cancelText="取消"
       >

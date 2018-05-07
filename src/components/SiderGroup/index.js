@@ -18,23 +18,45 @@ class SiderGroup extends React.Component {
       this.setState({ visible })
     }
     render() {
+      const { dispatch } = this.props;
+      const {
+        searchRoomList,
+        roomSearchLoading,
+        menuLoading,
+        roomLink,
+        roomList
+      } = this.props.room;
+      const { collapsed, visible } = this.state;
       return (
         <Sider
           collapsible
-          collapsed={this.state.collapsed}
+          collapsed={collapsed}
           onCollapse={this.onCollapse}
         >
           <div className={styles.logo}>
-            <RoomSelect {...this.props} />
-            <Button icon="plus" onClick={this.onVisible.bind(this, true)}>创建聊天室</Button>
+            <RoomSelect
+              searchRoomList={searchRoomList}
+              roomSearchLoading={roomSearchLoading}
+              dispatch={dispatch}
+            />
+            <Button
+              icon="plus"
+              onClick={this.onVisible.bind(this, true)}
+            >
+              创建聊天室
+            </Button>
           </div>
-          <Spin spinning={this.props.room.menuLoading} style={{ height: 400 }}>
+          <Spin spinning={menuLoading} style={{ height: 400 }}>
             <RoomAdd
-              {...this.props}
-              visible={this.state.visible}
+              visible={visible}
+              dispatch={dispatch}
               onVisible={this.onVisible.bind(this, false)}
             />
-            <RoomMenu {...this.props} />
+            <RoomMenu
+              roomLink={roomLink}
+              roomList={roomList}
+              dispatch={dispatch}
+            />
           </Spin>
         </Sider>
       )
