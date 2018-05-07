@@ -19,6 +19,7 @@ class RoomSetting extends React.Component {
   render() {
     const { onlineList, annoucement, isUserExist } = this.props.room;
     const { visible } = this.state;
+    console.log('onlineList', onlineList)
     return (
       <div style={{ flex: 1 }}>
         <Collapse

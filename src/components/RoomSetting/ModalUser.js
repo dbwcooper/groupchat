@@ -14,7 +14,10 @@ class ModalUsers extends React.Component {
   }
   // 得到搜索用户列表
   onSearchUserList = (value) => {
-    this.props.dispatch({ type: 'user/e_getUserList', payload: value })
+    const { dispatch } = this.props;
+    if (value) {
+      dispatch({ type: 'user/e_getUserList', payload: value })
+    }
   }
   onChange = (value) => {
     this.setState({ value })
