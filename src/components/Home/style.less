@@ -34,12 +34,34 @@
     .content{
       overflow: auto;
       height: calc(~"100% - 100px");
+      &::-webkit-scrollbar {
+        width: 8px;
+        background-color: #eee;
+      }
+        
+      &::-webkit-scrollbar-track {
+        background-color: #eee;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: #3DB6A4;
+      }
+      
+      &::-webkit-scrollbar-button:start {
+        background: blue;
+        background-size: 12px 12px;
+      }
+      
+      &::-webkit-scrollbar-button:end {
+        background: red;
+        background-size: 12px 12px;
+      }
     }
   }
   .room-users{
     height: 100%;
     width: 20%;
-    background: green;
+    background: #3DB6A4;
     padding: 24px;
   }
 }

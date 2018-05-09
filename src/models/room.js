@@ -1,5 +1,5 @@
 import * as Service from '../services';
-import { Notification } from '../utils/util';
+import { Notification, getCookieByName } from '../utils/util';
 
 export default {
   namespace: 'room',
@@ -12,7 +12,7 @@ export default {
     menuLoading: false,
     onlineList: [],
     searchRoomList: [],
-    roomList: [], // roomList['nodejs', 'groupchat']
+    roomList: ['groupchat'], // roomList['nodejs', 'groupchat']
     converseList: [],
     isUserExist: false,
   },
@@ -120,13 +120,15 @@ export default {
     // 得到roomMenu
     *e_getRoomMenu(action, { put, call }) {
       try {
+        let token = yield getCookieByName('token');
+        if (!token) {
+          return;
+        }
         yield put({ type: 'r_save', payload: { converseLoading: true, menuLoading: true } });
-        let { code, data, msg } = yield call(Service.getRoomMenu);
+        let { code, data } = yield call(Service.getRoomMenu);
         //  && data.length !== 0
         if (code === 200) {
           yield put({ type: 'r_save', payload: { roomList: data } })
-        } else {
-          Notification('error', msg);
         }
         yield put({ type: 'r_save', payload: { converseLoading: false, menuLoading: false } });
       } catch (error) {
